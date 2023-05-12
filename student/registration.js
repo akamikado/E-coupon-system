@@ -5,12 +5,8 @@ const bodyParser = require("body-parser");
 const bcrypt = require("bcryptjs");
 const router = express.Router();
 
-const studentSchema = mongoose.Schema({
-  email: { type: String, required: true, unique: true },
-  password: { type: String, required: true },
-  studentId: mongoose.Types.ObjectId,
-});
-const User = mongoose.model("student", studentSchema);
+const User = require("./util/student-db-schema");
+const login = require("./login");
 
 router.use(bodyParser.urlencoded({ extended: false }));
 
@@ -29,7 +25,8 @@ router.post("/student/registration", async (req, res) => {
       user
         .save()
         .then(() => {
-          /*res.redirect("/student/login");*/
+          res.redirect("/student/login");
+          console.log("saved");
         })
         .catch((err) => {
           console.log(err);

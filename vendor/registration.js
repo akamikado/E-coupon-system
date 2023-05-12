@@ -4,18 +4,13 @@ const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
 const bcrypt = require("bcryptjs");
 
-const router = express.Router();
+const User = require("./util/vendor-db-schema");
 
-const vendorSchema = mongoose.Schema({
-  email: { type: String, required: true, unique: true },
-  password: { type: String, required: true },
-  vendorId: mongoose.Types.ObjectId,
-});
-const User = mongoose.model("vendor", vendorSchema);
+const router = express.Router();
 
 router.use(bodyParser.urlencoded({ extended: false }));
 
-router.post("/vendor/registration", async (req, res) => {
+router.post("/registration", async (req, res) => {
   const email = req.body.email;
   const password = req.body.password;
   const confirmPassword = req.body.confirmPassword;
@@ -37,7 +32,7 @@ router.post("/vendor/registration", async (req, res) => {
         });
     });
   } else {
-    res.redirect("/vendor/registration");
+    res.redirect("/registration");
   }
 });
 

@@ -7,9 +7,9 @@ const vendor = require("./vendor/vendor");
 
 const app = express();
 
-app.use(student);
+app.use("/student", student);
 
-app.use(vendor);
+app.use("/vendor", vendor);
 
 mongoose
   .connect(
