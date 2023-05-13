@@ -3,9 +3,9 @@ const session = require("express-session");
 const mongoDbStore = require("connect-mongodb-session")(session);
 
 const vendorRegistration = require("./registration");
-const vendorLogin = require("./login");
+const vendorLogin = require("./login-logout");
 const vendorQr = require("./qr-request");
-const isAuthorized = require("./util/auth");
+const authorized = require("./util/auth");
 
 const router = express.Router();
 
@@ -28,8 +28,10 @@ router.use(
 
 router.use(vendorRegistration);
 
-router.use("login", vendorLogin);
+router.post("/login", vendorLogin.login);
 
-router.use(isAuthorized, vendorQr);
+router.use(authorized.isAuthorized, vendorQr);
+
+router.use("/logout", vendorLogin.logout);
 
 module.exports = router;

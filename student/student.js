@@ -3,7 +3,7 @@ const session = require("express-session");
 const mongoDbStore = require("connect-mongodb-session")(session);
 
 const studentRegistration = require("./registration");
-const studentLogin = require("./login");
+const studentLogin = require("./login-logout");
 
 const router = express.Router();
 
@@ -26,6 +26,8 @@ router.use(
 
 router.use(studentRegistration);
 
-router.use("/student/login", studentLogin);
+router.post("/login", studentLogin.login);
+
+router.use("/logout", studentLogin.logout);
 
 module.exports = router;

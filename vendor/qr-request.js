@@ -1,13 +1,13 @@
 const express = require("express");
 
+const qr = require("qrcode");
+const session = require("express-session");
+
 const router = express.Router();
 
-const qr = require("qrcode");
-
-const vendorId = 1234; //currently setting vendorId as this until user registration is made
-
-router.get("/transaction", async (req, res) => {
-  const amount = req.params.amount;
+router.post("/transaction", async (req, res) => {
+  const amount = req.body.amount;
+  const vendorId = req.session.vendorId;
   const text = `User ID: ${vendorId}, Amount: ${amount}`;
   const options = {
     margin: 1,

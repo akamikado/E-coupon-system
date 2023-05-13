@@ -5,12 +5,13 @@ const bodyParser = require("body-parser");
 const bcrypt = require("bcryptjs");
 
 const User = require("./util/vendor-db-schema");
+const authorizer = require("./util/auth");
 
 const router = express.Router();
 
 router.use(bodyParser.urlencoded({ extended: false }));
 
-router.post("/registration", async (req, res) => {
+router.post("/registration", authorizer.emailvalidator, async (req, res) => {
   const email = req.body.email;
   const password = req.body.password;
   const confirmPassword = req.body.confirmPassword;
@@ -25,14 +26,14 @@ router.post("/registration", async (req, res) => {
       user
         .save()
         .then(() => {
-          /*res.redirect("/vendor/login");*/
+          res.redirect("/vendor/login");
         })
         .catch((err) => {
           console.log(err);
         });
     });
   } else {
-    res.redirect("/registration");
+    res.redirect(308, "/registration");
   }
 });
 
