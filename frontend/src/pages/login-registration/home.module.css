@@ -1,0 +1,26 @@
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+.square {
+  width: 250px;
+  height: 250px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+.heading {
+  font-size: 36px;
+  font-weight: bold;
+  margin-top: 50px;
+  color: #000000;
+  text-align: center;
+}
+.buttonlist {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
