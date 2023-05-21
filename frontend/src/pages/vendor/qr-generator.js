@@ -1,32 +1,33 @@
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import QrCode from "react-qr-code";
 
 function QrCodeRequest() {
   const navigate = useNavigate();
   const { handleSubmit, reset, register } = useForm();
   const [vendorId, setVendorId] = useState("");
-
+  let text = "";
   const handleGenerate = async (data) => {
     reset();
+
+    const amount = data.Amount;
     try {
-      const response = await axios.post(
-        "http://localhost:3001/vendor/transaction",
-        {
+      const response = await axios
+        .post("http://localhost:3001/vendor/transaction", {
           headers: {
             "Content-Type": "application/json",
           },
-        }
-      );
-      const parsedResponse = response.data;
-      setVendorId(parsedResponse.vendorId);
-      const expires = new Date();
-      expires.setTime(expires.getTime() + 2000);
-      document.cookie = `vendorId=${parsedResponse.vendorId}; amount=${
-        data.Amount
-      }; path=/vendor/home/generate-transaction/qr; expires=${expires.toUTCString()}`;
-      navigate("/vendor/home/generate-transaction/qr");
+        })
+        .then((response) => {
+          console.log(response.data);
+          const parsedResponse = response.data;
+          setVendorId(parsedResponse.vendorId);
+          const expires = new Date();
+          expires.setTime(expires.getTime() + 2000);
+          text = `VendorId= ${vendorId}; Amount= ${amount}`;
+        });
     } catch (error) {
       console.log(error);
     }
@@ -38,17 +39,22 @@ function QrCodeRequest() {
 
   return (
     <div>
-      <form onSubmit={handleSubmit(handleGenerate)}>
-        <input
-          type="number"
-          placeholder="Enter amount"
-          {...register("Amount", { required: true })}
-        />
-        <button type="submit">Generate</button>
-        <button type="button" onClick={handleCancel}>
-          Home
-        </button>
-      </form>
+      <div>
+        <form onSubmit={handleSubmit(handleGenerate)}>
+          <input
+            type="number"
+            placeholder="Enter amount"
+            {...register("Amount", { required: true })}
+          />
+          <button type="submit">Generate</button>
+          <button type="button" onClick={handleCancel}>
+            Home
+          </button>
+        </form>
+      </div>
+      <div>
+        <QrCode value={text} />
+      </div>
     </div>
   );
 }

@@ -1,7 +1,8 @@
 const express = require("express");
 
 const bcrypt = require("bcryptjs");
-const session = require("connect-mongodb-session");
+const session = require("express-session");
+const mongoDbStore = require("connect-mongodb-session")(session);
 
 const User = require("./util/vendor-db-schema");
 
@@ -15,10 +16,13 @@ function login(req, res) {
       if (doMatch) {
         req.session.isLoggedIn = true;
         req.session.user = user;
-        req.session.vendorId = user.vendorId;
-        res.setHeader("session-id", req.session.id);
+        const stringUser = JSON.stringify(user);
+        const parsedUser = JSON.parse(stringUser);
+        req.session.vendorId = parsedUser.vendorId;
         return req.session.save((err) => {
           console.log(err);
+          res.setHeader("Access-Control-Allow-Origin", "http://localhost:3000");
+          res.setHeader("Access-Control-Allow-Credentials", "true");
           return res.json({ loginSuccess: true });
         });
       }

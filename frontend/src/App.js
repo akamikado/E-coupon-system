@@ -8,6 +8,7 @@ import ConfirmTransaction from "./pages/student/transaction-confirmation";
 import StudentLogoutPage from "./pages/student/logout";
 import VendorHomePage from "./pages/vendor/vendor-home";
 import QrCodeRequest from "./pages/vendor/qr-generator";
+import VendorLogoutPage from "./pages/vendor/logout";
 import { Route, Routes } from "react-router-dom";
 
 function App() {
@@ -39,6 +40,10 @@ function App() {
           element={<QrCodeRequest />}
         />
         <Route path="/student/home/transaction-history" />
+        <Route
+          path="/vendor/home/confirm-logout"
+          element={<VendorLogoutPage />}
+        />
       </Routes>
     </div>
   );

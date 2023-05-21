@@ -15,7 +15,7 @@ const VendorLoginForm = () => {
     emailCheck: null,
     passwordCheck: null,
   });
-  const [errorText, setErrorText] = useState({ error: false });
+  const [errorText, setErrorText] = useState("");
   const [formIsTouched, setFormIsTouched] = useState(false);
   useEffect(() => {
     if (formIsTouched) {
@@ -44,6 +44,14 @@ const VendorLoginForm = () => {
       .request(config)
       .then((response) => {
         if (response.data.loginSuccess) {
+          const sessionCookie = document.cookie
+            .split(";")
+            .find((cookie) => cookie.startsWith("connect.sid="));
+
+          if (sessionCookie) {
+            const sessionId = sessionCookie.split("=")[1];
+            console.log(sessionId);
+          }
           window.location.href = "http://localhost:3000/vendor/home";
         } else {
           const { emailCheck, passwordCheck } = response.data;

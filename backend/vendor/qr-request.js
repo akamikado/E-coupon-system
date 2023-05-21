@@ -5,7 +5,6 @@ const session = require("express-session");
 const mongoDbStore = require("connect-mongodb-session")(session);
 
 const router = express.Router();
-
 const MONGO_URI =
   "mongodb+srv://akamikado:mSW4SJTC0Qv0vdNG@cluster0.tyeevhl.mongodb.net/project?retryWrites=true&w=majority";
 
@@ -14,18 +13,13 @@ const store = new mongoDbStore({
   collection: "vendor-sessions",
 });
 
-router.use(
-  session({
-    secret: "vendor-authentication",
-    resave: false,
-    saveUninitialized: false,
-    store: store,
-  })
-);
-
 router.post("/transaction", (req, res) => {
-  const vendorIdString = JSON.stringify(req.session.vendorId);
-  res.json({ vendorId: vendorIdString });
+  console.log(req.session.id);
+  store.get(req.session.id, (err, session) => {
+    const vendorId = session.vendorId;
+    console.log(vendorId);
+    res.json({ vendorId: vendorId });
+  });
 });
 
 module.exports = router;

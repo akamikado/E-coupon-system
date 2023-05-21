@@ -1,7 +1,7 @@
 const express = require("express");
 
 const bcrypt = require("bcryptjs");
-const session = require("connect-mongodb-session");
+const session = require("express-session");
 
 const User = require("./util/student-db-schema");
 
@@ -13,14 +13,21 @@ async function login(req, res) {
     }
     bcrypt.compare(password, user.password).then((doMatch) => {
       if (doMatch) {
-        console.log("matched");
         req.session.isLoggedIn = true;
         req.session.user = user;
-        req.session.studentId = user.studentId;
-        res.setHeader("session-id", req.session.id);
+        const stringUser = JSON.stringify(user);
+        const parsedUser = JSON.parse(stringUser);
+        req.session.studentId = parsedUser.studentId;
+        console.log(req.session.studentId);
+        res.set({
+          "session-id": `${req.session.id}`,
+          "student-id": `${req.session.studentId}`,
+        });
         return req.session.save((err) => {
           console.log(err);
-          return res.json({ loginSuccess: true, sessionId: req.sessionId });
+          return res.json({
+            loginSuccess: true,
+          });
         });
       }
       return res.json({
