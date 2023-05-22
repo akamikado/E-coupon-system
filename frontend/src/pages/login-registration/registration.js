@@ -34,6 +34,7 @@ const RegistrationForm = () => {
     await axios
       .request(config)
       .then((response) => {
+        console.log(response.data);
         const { email } = response.data;
         if (email) {
           navigate(`/${user}/login`);
@@ -75,7 +76,7 @@ const RegistrationForm = () => {
         />
         {errors.password && <span>Password is required</span>}
         <input
-          type="confirmPassword"
+          type="password"
           placeholder="ConfirmPassword"
           {...register("confirmPassword", { required: true })}
         />

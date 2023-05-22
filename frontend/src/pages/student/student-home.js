@@ -1,4 +1,5 @@
 import Button from "../../components/button";
+import CurrentBalance from "../../components/current-balance";
 
 function StudentHomePage() {
   return (
@@ -9,6 +10,7 @@ function StudentHomePage() {
         page="/student/home/transaction-history"
       />
       <Button text="Log out" page="/student/home/confirm-logout" />
+      <CurrentBalance />
     </div>
   );
 }

@@ -1,33 +1,35 @@
 const express = require("express");
 
 const bcrypt = require("bcryptjs");
-const session = require("express-session");
+const jwt = require("jsonwebtoken");
 
 const User = require("./util/student-db-schema");
 
 async function login(req, res) {
   const { email, password } = req.body;
+  console.log(email, "////", password);
   await User.findOne({ email: email }).then((user) => {
     if (!user) {
       return res.json({ emailCheck: false, passwordCheck: false });
     }
     bcrypt.compare(password, user.password).then((doMatch) => {
       if (doMatch) {
-        req.session.isLoggedIn = true;
-        req.session.user = user;
+        console.log(user);
         const stringUser = JSON.stringify(user);
         const parsedUser = JSON.parse(stringUser);
-        req.session.studentId = parsedUser.studentId;
-        console.log(req.session.studentId);
-        res.set({
-          "session-id": `${req.session.id}`,
-          "student-id": `${req.session.studentId}`,
-        });
-        return req.session.save((err) => {
-          console.log(err);
-          return res.json({
-            loginSuccess: true,
-          });
+        console.log(parsedUser._id);
+        const token = jwt.sign(
+          {
+            user: "student",
+            studentId: parsedUser._id,
+          },
+          "student-authorization",
+          { expiresIn: "2h" }
+        );
+        return res.json({
+          loginSuccess: true,
+          studentId: parsedUser._id,
+          token,
         });
       }
       return res.json({

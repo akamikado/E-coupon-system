@@ -9,8 +9,7 @@ const authorized = require("./util/auth");
 
 const router = express.Router();
 
-const MONGO_URI =
-  "mongodb+srv://akamikado:mSW4SJTC0Qv0vdNG@cluster0.tyeevhl.mongodb.net/project?retryWrites=true&w=majority";
+const MONGO_URI = `mongodb+srv://${process.env.MONGO_DB_USERNAME}:${process.env.MONGO_DB_PASSWORD}@cluster0.tyeevhl.mongodb.net/project?retryWrites=true&w=majority`;
 
 const store = new mongoDbStore({
   uri: MONGO_URI,

@@ -43,11 +43,10 @@ const StudentLoginForm = () => {
       .request(config)
       .then((response) => {
         if (response.data.loginSuccess) {
-          const sessionId = response.headers["session-id"];
-          const studentId = response.headers["student-id"];
-          console.log(sessionId);
-          console.log(studentId);
-          document.cookie = `sessionId=${sessionId}; studentId=${studentId}; path=/student; HttpOnly`;
+          const token = response.data.token;
+          const studentId = response.data.studentId;
+          localStorage.setItem("token", token);
+          localStorage.setItem("studentId", studentId);
           window.location.href = "http://localhost:3000/student/home";
         } else {
           const { emailCheck, passwordCheck } = response.data;

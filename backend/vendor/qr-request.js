@@ -3,10 +3,11 @@ const express = require("express");
 const qr = require("qrcode");
 const session = require("express-session");
 const mongoDbStore = require("connect-mongodb-session")(session);
+const dotenv = require("dotenv");
 
 const router = express.Router();
-const MONGO_URI =
-  "mongodb+srv://akamikado:mSW4SJTC0Qv0vdNG@cluster0.tyeevhl.mongodb.net/project?retryWrites=true&w=majority";
+dotenv.config();
+const MONGO_URI = `mongodb+srv://${process.env.MONGO_DB_USERNAME}:${process.env.MONGO_DB_PASSWORD}@cluster0.tyeevhl.mongodb.net/project?retryWrites=true&w=majority`;
 
 const store = new mongoDbStore({
   uri: MONGO_URI,

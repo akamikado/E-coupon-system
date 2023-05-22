@@ -24,7 +24,7 @@ router.post("/registration", authorizer.emailvalidator, async (req, res) => {
       user
         .save()
         .then(() => {
-          res.redirect("localhost:3000/vendor/login");
+          res.json({ email: true, password: true });
         })
         .catch((err) => {
           console.log(err);

@@ -1,8 +1,7 @@
 const express = require("express");
 
 const bcrypt = require("bcryptjs");
-const session = require("express-session");
-const mongoDbStore = require("connect-mongodb-session")(session);
+const jwt = require("jsonwebtoken");
 
 const User = require("./util/vendor-db-schema");
 
@@ -14,16 +13,16 @@ function login(req, res) {
     }
     bcrypt.compare(password, user.password).then((doMatch) => {
       if (doMatch) {
-        req.session.isLoggedIn = true;
-        req.session.user = user;
         const stringUser = JSON.stringify(user);
         const parsedUser = JSON.parse(stringUser);
-        req.session.vendorId = parsedUser.vendorId;
-        return req.session.save((err) => {
-          console.log(err);
-          res.setHeader("Access-Control-Allow-Origin", "http://localhost:3000");
-          res.setHeader("Access-Control-Allow-Credentials", "true");
-          return res.json({ loginSuccess: true });
+        const token = jwt.sign({
+          user: "vendor",
+          vendorId: parsedUser.vendorId,
+        },'vendor-authorization',{expiresIn:'2h'});
+        return res.json({
+          loginSuccess: true,
+          vendorId: parsedUser.vendorId,
+          token
         });
       }
       return res.json({ email: true, password: false });

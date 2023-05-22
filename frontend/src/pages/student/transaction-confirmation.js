@@ -3,8 +3,8 @@ import axios from "axios";
 function ConfirmTransaction() {
   const navigate = useNavigate();
   const cookies = document.cookie.split(";");
-  const money = cookies.find(
-    ((cookies) => cookies.includes("money="))?.split("=")[1]
+  const amount = cookies.find(
+    ((cookies) => cookies.includes("amount="))?.split("=")[1]
   );
   const vendorId = cookies.find(
     ((cookies) => cookies.includes("vendorId="))?.split("=")[1]
@@ -24,7 +24,7 @@ function ConfirmTransaction() {
       headers: {
         "Content-Type": "application/json",
       },
-      data: { money: money, vendorId: vendorId, time: currentTime },
+      data: { amount: amount, vendorId: vendorId, time: currentTime },
     };
     axios
       .post(config)
@@ -39,7 +39,7 @@ function ConfirmTransaction() {
   return (
     <div>
       <p>
-        You have ordered coupons worth {money}. Would you like to proceed with
+        You have ordered coupons worth {amount}. Would you like to proceed with
         the transaction?
       </p>
       <button onClick={onCancel}>Cancel</button>
