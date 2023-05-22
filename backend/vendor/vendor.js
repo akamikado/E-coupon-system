@@ -5,7 +5,7 @@ const mongoDbStore = require("connect-mongodb-session")(session);
 const vendorRegistration = require("./registration");
 const vendorLogin = require("./login-logout");
 const vendorQr = require("./qr-request");
-const authorized = require("./util/auth");
+const TransactionHistory = require("./transaction-history");
 
 const router = express.Router();
 
@@ -33,6 +33,8 @@ router.use(vendorRegistration);
 router.post("/login", vendorLogin.login);
 
 router.use(vendorQr);
+
+router.use("/transaction-history", TransactionHistory);
 
 router.use("/logout", vendorLogin.logout);
 

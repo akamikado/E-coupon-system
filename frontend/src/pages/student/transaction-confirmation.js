@@ -11,7 +11,7 @@ function ConfirmTransaction() {
   );
   const currentTime = () => {
     const currentTime = new Date();
-    return currentTime.toLocaleTimeString();
+    return currentTime.toLocaleString();
   };
   const onCancel = () => {
     navigate("/student/home");

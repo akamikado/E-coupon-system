@@ -3,23 +3,18 @@ const mongoose = require("mongoose");
 
 const User = require("./util/student-db-schema");
 const router = express.Router();
-const transactionSchema = mongoose.Schema({
-  amount: { type: Number },
-  vendorId: { type: String },
-  studentId: { type: String },
-  transactionTime: { type: String },
-});
-const TransactionModel = mongoose.model("transactions", transactionSchema);
+
+const TransactionModel = require("./util/transaction-schema");
 router.post("/", (req, res) => {
   const { amount, vendorId, time, studentId } = req.body;
 
-  const transation = new TransactionModel({
+  const transaction = new TransactionModel({
     amount: amount,
     vendorId: vendorId,
     studentId: studentId,
     transactionTime: time,
   });
-  transation
+  transaction
     .save()
     .then(() => {
       User.findOne({

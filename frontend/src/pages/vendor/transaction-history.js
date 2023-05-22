@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
-function StudentTransactionHistory() {
+function VendorTransactionHistory() {
   const navigate = useNavigate();
   const [transactionsState, setTransactionsState] = useState([]);
 
@@ -20,7 +20,7 @@ function StudentTransactionHistory() {
           },
 
           body: JSON.stringify({
-            studentId: localStorage.getItem("studentId"),
+            studentId: localStorage.getItem("vendorId"),
           }),
         }
       );
@@ -36,7 +36,7 @@ function StudentTransactionHistory() {
     }
   };
   const handleClick = () => {
-    navigate("/student/home");
+    navigate("/vendor/home");
   };
 
   return (
@@ -58,4 +58,4 @@ function StudentTransactionHistory() {
     </div>
   );
 }
-export default StudentTransactionHistory;
+export default VendorTransactionHistory;

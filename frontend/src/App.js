@@ -8,6 +8,8 @@ import StudentLogoutPage from "./pages/student/logout";
 import VendorHomePage from "./pages/vendor/vendor-home";
 import QrCodeRequest from "./pages/vendor/qr-generator";
 import VendorLogoutPage from "./pages/vendor/logout";
+import StudentTransactionHistory from "./pages/student/transaction-history";
+import VendorTransactionHistory from "./pages/vendor/transaction-history";
 import { Route, Routes } from "react-router-dom";
 
 function App() {
@@ -22,7 +24,10 @@ function App() {
       <Routes>
         <Route path="/student/home" element={<StudentHomePage />} />
         <Route path="/student/home/qr-scanner" element={<QrScannerPage />} />
-        <Route path="/student/home/transaction-history" />
+        <Route
+          path="/student/home/transaction-history"
+          element={<StudentTransactionHistory />}
+        />
         <Route
           path="/student/home/confirm-logout"
           element={<StudentLogoutPage />}
@@ -34,7 +39,10 @@ function App() {
           path="/vendor/home/generate-transaction"
           element={<QrCodeRequest />}
         />
-        <Route path="/student/home/transaction-history" />
+        <Route
+          path="/vendor/home/transaction-history"
+          element={<VendorTransactionHistory />}
+        />
         <Route
           path="/vendor/home/confirm-logout"
           element={<VendorLogoutPage />}
