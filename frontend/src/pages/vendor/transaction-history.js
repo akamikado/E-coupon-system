@@ -11,7 +11,7 @@ function VendorTransactionHistory() {
   const fetchTransactions = async () => {
     try {
       const response = await fetch(
-        "http://localhost:3001/student/transaction-history",
+        "http://localhost:3001/vendor/transaction-history",
         {
           method: "POST",
 
